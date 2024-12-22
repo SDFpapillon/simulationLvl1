@@ -6,6 +6,7 @@ class Universe:
         self.objects = []
         self.G = 6.67430 * 10**(-11)
 
+
     def NewtonLaw(self, objectCalc):
 
         """
