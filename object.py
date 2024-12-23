@@ -1,3 +1,5 @@
+dt = 100 #100 is the maximum, after aproximation is too big
+
 class Object:
 
     """
@@ -10,37 +12,35 @@ class Object:
         - self evolution
 
 
-
     """
 
-    def __init__(self, masse, dimension, position, speed):
+    def __init__(self, masse, position, speed):
 
         self.masse = masse
-        self.dimension = dimension #all objects are a spher
         self.forces = []
-        self.acceleration = []
-        self.speed = speed
+        self.acceleration = [0, 0]
+        self.speed = [speed[0] * (dt**0.5), speed[1] * dt ** 0.5]
         self.position = position
 
 
     def calcMyAcceleration(self):
 
-        totalForces = [0,0,0]
+        totalForces = [0,0]
 
         for force in self.forces:
-            for i in range(3):
+            for i in range(2):
                 totalForces[i] += force[i]
 
         self.forces = []
 
-        for i in range(3):
-            self.acceleration = totalForces[i] / self.masse
+        for i in range(2):
+            self.acceleration[i] = (dt * totalForces[i] / self.masse)
 
 
     def evolution(self):
 
-        for i in range(3):
-            self.position[i] += self.speed[i]
+        for i in range(2):
+            self.position[i] += dt * self.speed[i]
 
-        for i in range(3):
-            self.speed[i] += self.acceleration[i]
+        for i in range(2):
+            self.speed[i] += dt * self.acceleration[i]

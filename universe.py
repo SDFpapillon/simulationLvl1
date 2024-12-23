@@ -2,10 +2,9 @@ from object import Object
 
 class Universe:
 
-    def __init__(self):
-        self.objects = []
+    def __init__(self, objects):
+        self.objects = objects
         self.G = 6.67430 * 10**(-11)
-
 
     def NewtonLaw(self, objectCalc):
 
@@ -17,20 +16,20 @@ class Universe:
         """
 
         for object in self.objects:
-            vect = []
+            vect = [0, 0]
 
-            for i in range(3):
-                vect[i] = objectCalc[i] - object[i]
+            for i in range(2):
+                vect[i] = object.position[i] - objectCalc.position[i]
 
-            if vect[0] != 0 or vect[1] != 0 or vect[2] != 0:
+            if vect[0] != 0 or vect[1] != 0:
                 norm = 0
 
-                for i in range(3):
+                for i in range(2):
                     norm += vect[i] ** 2
 
                 norm = norm ** 1.5
 
-                for i in range(3):
+                for i in range(2):
                     vect[i] *= self.G * object.masse * objectCalc.masse
                     vect[i] /= norm
 
