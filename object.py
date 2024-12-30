@@ -25,16 +25,20 @@ class Object:
 
     def calcMyAcceleration(self):
 
-        totalForces = [0,0]
+        if self.masse != 0 :
+            totalForces = [0,0]
 
-        for force in self.forces:
+            for force in self.forces:
+                for i in range(2):
+                    totalForces[i] += force[i]
+
+            self.forces = []
+
             for i in range(2):
-                totalForces[i] += force[i]
+                self.acceleration[i] = (dt * totalForces[i] / abs(self.masse))
 
-        self.forces = []
-
-        for i in range(2):
-            self.acceleration[i] = (dt * totalForces[i] / self.masse)
+        else :
+            self.acceleration = [0, 0]
 
 
     def evolution(self):

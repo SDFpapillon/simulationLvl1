@@ -13,18 +13,22 @@ from universe import Universe
 from object import Object
 
 sun = Object(1.9891*(10**30), [0, 0], [0, 0])
-heart = Object(5.972*(10**24), [149597870700, 0], [0, 30000])
+heart = Object(-5.972*(10**24), [149597870700, 0], [-300000, 0])
+heartinit = Object(0, [149597870700, 0], [0, 0])
 
-universe = Universe([sun, heart])
+universe = Universe([sun, heart, heartinit])
 
+
+
+"""
+graph part, I have to do it better but, it's not fun so... I'll do it later
+"""
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((1800, 900))
 clock = pygame.time.Clock()
 running = True
-
-screen.fill("black")
 
 while running:
     # poll for events
@@ -33,17 +37,32 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # fill the screen with a color to wipe away anything from last frame
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_z:
+                for object in universe.objects:
+                    object.position[1] -= 1000000000
+            elif event.key == pygame.K_s:
+                for object in universe.objects:
+                    object.position[1] += 1000000000
+            elif event.key == pygame.K_q:
+                for object in universe.objects:
+                    object.position[0] -= 1000000000
+            elif event.key == pygame.K_d:
+                for object in universe.objects:
+                    object.position[0] += 1000000000
 
 
     # RENDER YOUR GAME HERE
 
+    screen.fill("black")
+
     universe.evolution()
 
-    pygame.draw.circle(screen, "blue", (heart.position[0]/149597870 + 100, heart.position[1]/149597870 + 100), 10)
+    pygame.draw.circle(screen, "blue", (heart.position[0]/149597870 + 100, heart.position[1]/149597870 + 100), 2)
+    pygame.draw.circle(screen, "green", (heartinit.position[0]/149597870 + 100, heartinit.position[1]/149597870 + 100), 2)
+
     pygame.draw.circle(screen, "red", (sun.position[0]/149597870 + 100, sun.position[1]/149597870 + 100), 10)
-    print("heart pos : ", (heart.position[0]/149597870 + 100, heart.position[1]/149597870 + 100))
-    print("heart speed : ", heart.speed)
+
 
     # flip() the display to put your work on screen
     pygame.display.flip()
